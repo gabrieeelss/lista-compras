@@ -28,3 +28,41 @@ async function save(itens: ItemStorage[]): Promise<void> {
         throw new Error("ITEM_SAVE: " + error)
     }
 }
+
+async function add(newItem: ItemStorage): Promise<ItemStorage[]> {
+    const itens = await get()
+    const updateItem  = [...itens, newItem]
+
+    await save(updateItem)
+    return updateItem
+}
+
+async function getByFilter(statusFilter: FilterStatus){
+    const itens = await get()
+    const itensFilrados = itens.filter((item) => item.status === statusFilter)
+
+    return itensFilrados
+}
+
+async function clear() {
+ try {
+    await AsyncStorage.removeItem(ITENS_STORAGE_KEY)
+ }  catch (error) {
+    throw new Error("ITEM_CLEAR: " + error)
+ }  
+}
+
+async function remove(id: string) {
+    const itens = await get()
+    const updateItems = itens.filter((item) => item.id !== id)
+    await save(updateItems)
+    
+}
+
+
+export const fnStorage = {
+    add,
+    get,
+    getByFilter,
+    clear
+}
