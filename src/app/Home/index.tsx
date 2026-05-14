@@ -53,6 +53,11 @@ function fnClear(){
   ])
 }
 
+async function fnRemoveItem(id: string) {
+  await fnStorage.remove(id)
+  itemByFilter()
+}
+
   useEffect(()=> {
     itemByFilter()
   }, [filter])
@@ -94,7 +99,9 @@ function fnClear(){
         <FlatList
           data={itens}
           renderItem={({ item }) => (
-            <Item data={item} />
+            <Item data={item} 
+            onRemove={ () => fnRemoveItem(item.id) }
+            />
           )}
           ListEmptyComponent={() =>
             <Text style={style.empty}>Nenhum item encontrado!</Text>

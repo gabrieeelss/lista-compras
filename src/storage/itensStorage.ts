@@ -64,5 +64,6 @@ export const fnStorage = {
     add,
     get,
     getByFilter,
-    clear
+    clear,
+    remove
 }
